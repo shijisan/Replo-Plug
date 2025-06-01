@@ -5,6 +5,7 @@ import { auth } from '@/lib/auth';
 
 // GET /api/articles/:articleId
 export async function GET(
+  _: NextRequest,
   context: { params: { articleId: string } }
 ) {
   const { params } = context;
