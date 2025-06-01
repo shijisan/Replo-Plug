@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 type DocResult = {
@@ -13,7 +12,6 @@ export default function SearchBar() {
    const [result, setResult] = useState<DocResult[]>([]);
    const [term, setTerm] = useState("");
 
-   const router = useRouter();
 
    const fetchResults = async (value: string) => {
       try {

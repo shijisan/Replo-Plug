@@ -12,7 +12,7 @@ interface EditFormData {
   keywords: string;
 }
 
-export default function FetchDocs({ isOpen, onSelectDocument }: FetchDocsProps) {
+export default function FetchDocs({ onSelectDocument }: FetchDocsProps) {
   const [documents, setDocuments] = useState<Article[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

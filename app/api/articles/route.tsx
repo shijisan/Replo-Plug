@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 
 // GET /api/articles - list all articles for the current user
-export async function GET(req: NextRequest) {
+export async function GET() {
   const user = await auth();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

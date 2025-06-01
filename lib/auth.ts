@@ -16,7 +16,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       })
    ],
    callbacks: {
-      async signIn({ user, account, profile }) {
+      async signIn({ user}) {
          const existingUser = await prisma.user.findUnique({
             where: { email: user.email! }
          });

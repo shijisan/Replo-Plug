@@ -26,7 +26,7 @@ export default function Account() {
             setUser(data);
          }
          catch (error) {
-            console.error("Failed to fetch user info");
+            console.error("Failed to fetch user info", error);
          }
       }
       fetchUserInfo();
