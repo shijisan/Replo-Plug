@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+:root {
+  --background: #fafafa;
+  --primary: #10b981;
+  --secondary: #ffffff
+  --foreground: #000000;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Now support both prefers-color-scheme AND data-theme */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --background: #262626;
+    --primary: #10b981;
+    --secondary: #404040;
+    --foreground: #ededed;
+  }
+}
+
+[data-theme="dark"] {
+  --background: #262626;
+  --primary: #10b981;  
+  --secondary: #404040;
+  --foreground: #ededed;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.wmde-markdown{
+  color: var(--foreground);
+}
+
+.wmde-markdown-color {
+  background-color: transparent!important;
+}
+
+.wmde-markdown h1{
+  border-bottom: var(--foreground) 1px solid!important;
+}
+
+main header{
+  background-image: url("../public/scribble.svg");
+}
+
+@layer components{
+  .btn{
+    @apply rounded-md text-white px-4 py-2 hover:brightness-95 active:opacity-95 hover:cursor-pointer inline-flex items-center justify-center gap-3
+  }
+  input{
+    @apply bg-foreground text-background py-2 px-4 w-full rounded-sm
+  }
+}
+
+@layer base{
+input {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0 border-0;
+}
+
+}
