@@ -3,12 +3,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 
+
 // GET /api/articles/:articleId
 export async function GET(
   _: NextRequest,
-  context: { params: { articleId: string } }
+  context: { params: Promise<{ articleId: string }> }
 ) {
-  const { params } = context;
+  const params = await context.params;
   const user = await auth();
 
   if (!user) {
