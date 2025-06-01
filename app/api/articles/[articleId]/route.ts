@@ -5,20 +5,20 @@ import { auth } from '@/lib/auth';
 
 // GET /api/articles/:articleId
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { articleId: string } }
+  context: { params: { articleId: string } }
 ) {
+  const { params } = context;
   const user = await auth();
+
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { articleId } = params;
   const article = await prisma.article.findUnique({
-    where: { id: articleId },
+    where: { id: params.articleId },
   });
 
-  if (!article || article.authorId !== user?.user.id) {
+  if (!article || article.authorId !== user.user.id) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
