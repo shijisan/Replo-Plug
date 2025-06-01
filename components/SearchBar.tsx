@@ -25,7 +25,7 @@ export default function SearchBar() {
          const data: DocResult[] = await res.json();
          setResult(data);
       } catch (error) {
-         console.error("Failed to fetch articles");
+         console.error("Failed to fetch articles", error);
       }
    };
 
