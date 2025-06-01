@@ -60,18 +60,21 @@ export async function PATCH(
 
 // DELETE /api/articles/:articleId - optional
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { articleId: string } }
+  _: NextRequest,
+  { params }: { params: Promise<{ articleId: string }> }
 ) {
+  const resolvedParams = await params;
   const user = await auth();
+  
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { articleId } = params;
+  const { articleId } = resolvedParams;
   const existing = await prisma.article.findUnique({
     where: { id: articleId },
   });
+  
   if (!existing || existing.authorId !== user?.user.id) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
