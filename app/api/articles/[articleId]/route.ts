@@ -30,15 +30,18 @@ export async function GET(
 // PATCH /api/articles/:articleId - update content
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { articleId: string } }
+  { params }: { params: Promise<{ articleId: string }> }
 ) {
+  const resolvedParams = await params;
   const user = await auth();
+  
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { articleId } = params;
+  const { articleId } = resolvedParams;
   const { content } = await req.json();
+  
   if (content == null || typeof content !== 'string') {
     return NextResponse.json({ error: 'Content is required' }, { status: 400 });
   }
@@ -46,6 +49,7 @@ export async function PATCH(
   const existing = await prisma.article.findUnique({
     where: { id: articleId },
   });
+  
   if (!existing || existing.authorId !== user?.user.id) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
