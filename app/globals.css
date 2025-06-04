@@ -42,8 +42,10 @@ body {
 }
 
 .wmde-markdown{
-  color: var(--foreground);
+  color: var(--foreground)!important;
 }
+
+
 
 .wmde-markdown-color {
   background-color: transparent!important;
@@ -64,11 +66,26 @@ main header{
   input{
     @apply bg-foreground text-background py-2 px-4 w-full rounded-sm
   }
+  
 }
 
 @layer base{
 input {
   @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0 border-0;
 }
+.wmde-markdown hr{
+  background-color: color-mix(in oklab, var(--foreground) 80%, transparent)!important;
+}
+.wmde-markdown blockquote{
+  border-left: color-mix(in oklab, var(--foreground) 80%, transparent) .25em solid!important;
+  color: var(--foreground) .25em solid!important;
+}
+.wmde-markdown ul{
+  list-style-type: disc!important;
+}
+.wmde-markdown ol{
+  list-style-type: decimal!important;
+}
+
 
 }

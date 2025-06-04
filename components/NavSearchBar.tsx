@@ -35,7 +35,7 @@ export default function SearchBar() {
    }, []);
 
    return (
-      <div className="relative h-full flex items-center justify-center">
+      <div className="relative h-full flex items-center justify-center z-50">
          <div className="relative z-50 w-full max-w-md">
             <input
                ref={inputRef}

@@ -53,7 +53,7 @@ export default function Nav() {
                      </li>
 
                      <li>
-                        <Link href={"/auth"}>Login</Link>
+                        <Link href={"/account"}>Account</Link>
                      </li>
                   </>
                }
