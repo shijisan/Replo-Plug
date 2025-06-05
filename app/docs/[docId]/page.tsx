@@ -31,6 +31,14 @@ export default function Doc() {
       fetchDoc();
    }, [id]); // Also fixed the dependency array
 
+   useEffect(() => {
+      const timeout = setTimeout(() => {
+         fetch(`/api/docs/${id}/view`, { method: "POST" });
+      }, 5000); // only counts after 5s
+
+      return () => clearTimeout(timeout);
+   }, [id]);
+
    return (
       <main className="pt-[9vh] flex items-center justify-center min-h-screen h-full pb-[1vh]">
          <div className="md:w-3xl border-2 border-primary h-full rounded-md p-8 bg-secondary">

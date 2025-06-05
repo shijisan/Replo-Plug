@@ -26,6 +26,7 @@ export interface Article {
   keywords: string;
   author: string;
   content: string;
+  views: number;
   createdAt: string;
   updatedAt: string;
 }

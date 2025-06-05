@@ -17,12 +17,19 @@ export async function POST(req: Request) {
             },
         });
 
-        // Email details
         const mailOptions = {
-            from: senderEmail,
-            to: process.env.EMAIL_USER, // Your email where you want to receive messages
-            subject: senderSubject,
-            text: senderMessage,
+        from: process.env.EMAIL_USER, 
+        to: process.env.EMAIL_USER,   
+        subject: `Replo Plug: ${senderSubject}`, 
+        text: `
+        You received a new message from your contact form:
+
+        Sender Email: ${senderEmail}
+        Subject: ${senderSubject}
+
+        Message:
+        ${senderMessage}
+        `
         };
 
         // Send email

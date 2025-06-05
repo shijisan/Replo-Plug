@@ -46,7 +46,7 @@ export default function SearchBar() {
             }}
             placeholder="Enter search term"
          />
-         <ul className="group-focus-within:flex flex-col hidden bg-secondary text-primary group-focus-within:rounded-b-md group-focus-within:border-2 group-focus-within:border-primary group-focus-within:border-t-0">
+         <ul className="group-focus-within:flex flex-col hidden bg-secondary text-primary group-focus-within:rounded-b-md group-focus-within:border-2 group-focus-within:border-primary group-focus-within:border-t-0 absolute max-w-3xl w-full">
             {result.length === 0 ? (
                <p>No results</p>
             ) : (

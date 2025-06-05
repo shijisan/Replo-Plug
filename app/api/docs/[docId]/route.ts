@@ -1,28 +1,29 @@
+import { NextResponse, NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
 
-export async function GET(req: Request, context : {params: Promise<{docId: string}>}){
-   const {docId} = await  context.params; // Changed from params.id to params.docId
-   console.log("Document ID:", docId);
-   
-   if (!docId) {
-      return NextResponse.json({ error: "Document ID is required" }, { status: 400 });
-   }
-   
-   try {
-      const fetchedDoc = await prisma.article.findUnique({
-         where: {
-            id: docId,
-         }
-      });
-      
-      if (!fetchedDoc) {
-         return NextResponse.json({ error: "Document not found" }, { status: 404 });
-      }
-      
-      return NextResponse.json(fetchedDoc);
-   } catch (error) {
-      console.error("Database error:", error);
-      return NextResponse.json({ error: "Internal server error" }, { status: 500 });
-   }
+// GET /api/docs/[docId]
+export async function GET(
+  _: NextRequest,
+  context: { params: Promise<{ docId: string }> }
+): Promise<NextResponse> {
+  const { docId } = await context.params; 
+
+  if (!docId) {
+    return NextResponse.json({ error: "Missing document ID" }, { status: 400 });
+  }
+
+  try {
+    const article = await prisma.article.findUnique({
+      where: { id: docId },
+    });
+
+    if (!article) {
+      return NextResponse.json({ error: "Article not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(article);
+  } catch (error) {
+    console.error("Error fetching article:", error);
+    return NextResponse.json({ error: "Failed to fetch article" }, { status: 500 });
+  }
 }

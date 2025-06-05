@@ -1,5 +1,6 @@
 import SearchBar from "@/components/SearchBar";
 import Link from "next/link";
+import MostViewed from "@/components/MostViewed";
 
 export default function Home() {
   return (
@@ -18,6 +19,9 @@ export default function Home() {
           <div className="max-w-3xl w-full">
             <SearchBar />
           </div>
+
+          <MostViewed />
+
         </header>
       </main>
     </>
