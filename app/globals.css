@@ -63,8 +63,11 @@ main header{
   .btn{
     @apply rounded-md text-white px-4 py-2 hover:brightness-95 active:opacity-95 hover:cursor-pointer inline-flex items-center justify-center gap-3
   }
-  input{
+  input, form textarea{
     @apply bg-foreground text-background py-2 px-4 w-full rounded-sm
+  }
+  form label{
+    @apply mb-2
   }
   
 }
