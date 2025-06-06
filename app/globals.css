@@ -51,7 +51,7 @@ body {
   background-color: transparent!important;
 }
 
-.wmde-markdown h1{
+.wmde-markdown h1, .wmde-markdown h2, .wmde-markdown h3, .wmde-markdown h4{
   border-bottom: var(--foreground) 1px solid!important;
 }
 
