@@ -3,6 +3,7 @@ import MDEditor, { ICommand, commands } from "@uiw/react-md-editor";
 import { Article, ArticleFormData } from "@/types/next-auth";
 import { FaSave, FaFolderOpen } from "react-icons/fa";
 import FetchDocs from "./FetchDocs";
+import { toast } from "react-toastify";
 
 export default function MarkdownEditor() {
   const [value, setValue] = useState<string>("");
@@ -16,38 +17,66 @@ export default function MarkdownEditor() {
     author: "Current User" // This would typically come from your auth context
   });
 
-  const createArticle = async (articleData: ArticleFormData): Promise<Article> => {
-    const res = await fetch('/api/articles', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: articleData.title,
-        keywords: articleData.keywords
-      })
-    });
-    if (!res.ok) throw new Error('Failed to create article');
-    return res.json();
+  const createArticle = async (articleData: ArticleFormData): Promise<Article | null> => {
+    try {
+      const res = await fetch('/api/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: articleData.title,
+          keywords: articleData.keywords
+        })
+      });
+
+      if (!res.ok) {
+        toast.error("Failed to create an article");
+        return null;
+      }
+      toast.success("Article created successfully");
+      const data: Article = await res.json();
+      return data;
+    }
+    catch (err) {
+      console.error(err)
+      toast.error("Something went wrong");
+      return null;
+    }
   };
-  
+
   const saveArticleContent = async (articleId: string, content: string): Promise<void> => {
-    console.log(`Saving article ${articleId} with content:`, content);
-    await fetch(`/api/articles/${articleId}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content })
-    });
-    console.log("Article saved successfully!");
+    try {
+      console.log(`Saving article ${articleId} with content:`, content);
+      const res = await fetch(`/api/articles/${articleId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content })
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to save article');
+      }
+
+      console.log("Article saved successfully!");
+      toast.success("Article saved successfully!");
+    } catch (error) {
+      console.error("Error saving article:", error);
+      toast.error("Failed to save article. Please try again.");
+      throw error; // Re-throw to let the caller handle it
+    }
   };
 
   const handleCreateArticle = async () => {
     if (!formData.title.trim()) {
-      alert("Please enter a title");
+      toast.error("Please enter a title");
       return;
     }
 
     setIsCreating(true);
     try {
       const newArticle = await createArticle(formData);
+
+      if (!newArticle) return;
+
       setCurrentArticle(newArticle);
       setValue(newArticle.content);
       setShowCreateDialog(false);
@@ -58,7 +87,7 @@ export default function MarkdownEditor() {
       });
     } catch (error) {
       console.error("Error creating article:", error);
-      alert("Failed to create article. Please try again.");
+      toast.error("Failed to create article. Please try again.");
     } finally {
       setIsCreating(false);
     }
@@ -91,11 +120,13 @@ export default function MarkdownEditor() {
       if (currentArticle) {
         try {
           await saveArticleContent(currentArticle.id, value);
-          alert("Article saved successfully!");
+          // Removed duplicate success toast - saveArticleContent already shows it
         } catch (error) {
-          console.error("Error saving article:", error);
-          alert("Failed to save article. Please try again.");
+          // Error toast is already handled in saveArticleContent
+          console.error("Error in save command:", error);
         }
+      } else {
+        toast.error("No article selected to save");
       }
     },
   };
@@ -121,7 +152,7 @@ export default function MarkdownEditor() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-secondary rounded-lg shadow-lg p-6 min-w-96 max-w-md">
             <h2 className="mt-0 mb-5 text-xl font-bold">Create New Article</h2>
-            
+
             <div className="mb-4">
               <label className="block mb-2 font-bold">Title *</label>
               <input
@@ -162,7 +193,7 @@ export default function MarkdownEditor() {
               >
                 <FaFolderOpen /> Open Document
               </button>
-              
+
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowCreateDialog(false)}

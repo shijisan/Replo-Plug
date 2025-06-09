@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, ChangeEvent, FormEvent } from "react";
+import { toast } from "react-toastify";
 
 export default function ContactPage() {
    const [formData, setFormData] = useState({
@@ -10,8 +11,6 @@ export default function ContactPage() {
    });
 
    const [loading, setLoading] = useState(false);
-   const [success, setSuccess] = useState("");
-   const [error, setError] = useState("");
 
    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setFormData({
@@ -23,8 +22,6 @@ export default function ContactPage() {
    const handleSubmit = async (e: FormEvent) => {
       e.preventDefault();
       setLoading(true);
-      setSuccess("");
-      setError("");
 
       try {
          const response = await fetch("/api/send-email", {
@@ -38,7 +35,7 @@ export default function ContactPage() {
          const data = await response.json();
          if (!response.ok) throw new Error(data.error);
 
-         setSuccess("Email sent successfully!");
+         toast.success("Email sent successfully!");
          setFormData({
             senderEmail: "",
             senderSubject: "",
@@ -46,7 +43,7 @@ export default function ContactPage() {
          });
       } catch (err) {
          console.error(err);
-         setError("Failed to send email. Please try again.");
+         toast.error("Failed to send email. Please try again.");
       } finally {
          setLoading(false);
       }
@@ -97,9 +94,6 @@ export default function ContactPage() {
                   </button>
                </div>
             </div>
-
-            {success && <p>{success}</p>}
-            {error && <p>{error}</p>}
          </form>
       </main>
    );

@@ -4,6 +4,8 @@ import "./globals.css";
 
 import Nav from "@/components/Nav";
 import SessionWrapper from "@/components/nextauth/SessionWrapper";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/ReactToastify.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +34,7 @@ export default function RootLayout({
       >
         <SessionWrapper>
           <Nav />
+          <ToastContainer />
           {children}
         </SessionWrapper>
 

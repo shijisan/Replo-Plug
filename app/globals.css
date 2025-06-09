@@ -55,9 +55,6 @@ body {
   border-bottom: var(--foreground) 1px solid!important;
 }
 
-main header{
-  background-image: url("../public/scribble.svg");
-}
 
 @layer components{
   .btn{

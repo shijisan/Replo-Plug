@@ -29,7 +29,7 @@ export default function Nav() {
 
    return (
       <>
-         <nav className="flex md:px-[10vw] h-[8vh] fixed top-0 left-0 w-full bg-primary items-center">
+         <nav className="flex md:px-[10vw] h-[8vh] fixed top-0 left-0 w-full bg-primary items-center z-30">
             <div className="flex items-center">
                <h1 className="text-3xl me-2">Replo Plug</h1>
                <span className="text-lg">{newPath === " / " && " / Home"}</span>
